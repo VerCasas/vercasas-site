@@ -4,26 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VerCasas – Para encontrar tu casa ideal</title>
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 0; }
+    header, footer { background: #f4f4f4; padding: 1em; text-align: center; }
+    nav a { margin: 0 1em; text-decoration: none; color: #333; }
+    main { padding: 2em; }
+    .listing { border: 1px solid #ccc; padding: 1em; margin-bottom: 1em; }
+    .language-switcher { position: absolute; top: 1em; right: 1em; }
+  </style>
 </head>
 <body>
   <header>
     <h1>VerCasas – Para encontrar tu casa ideal</h1>
     <nav>
-      <a href="#">Inicio</a> |
-      <a href="#">Chiquimula</a> |
+      <a href="#">Inicio</a>
+      <a href="#">Chiquimula</a>
       <a href="#">Zacapa</a>
     </nav>
+    <div class="language-switcher">
+      <a href="?lang=es">ES</a> |
+      <a href="?lang=en">EN</a> |
+      <a href="?lang=nl">NL</a> |
+      <a href="?lang=pt">PT</a>
+    </div>
   </header>
   <main>
     <h2>Casas disponibles</h2>
-    <div>
+    <div class="listing">
       <h3>Casa familiar en Chiquimula</h3>
-      <p>Precio: Q450,000</p>
+      <p><strong>Precio:</strong> Q450,000</p>
       <p>3 habitaciones, 2 baños</p>
     </div>
-    <div>
+    <div class="listing">
       <h3>Casa moderna en Zacapa</h3>
-      <p>Precio: Q650,000</p>
+      <p><strong>Precio:</strong> Q650,000</p>
       <p>4 habitaciones, 3 baños, piscina</p>
     </div>
   </main>
