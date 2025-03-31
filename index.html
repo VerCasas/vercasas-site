@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VerCasas – Para encontrar tu casa ideal</title>
   <style>
-    body { font-family: sans-serif; margin: 0; padding: 0; }
-    header, footer { background: #f4f4f4; padding: 1em; text-align: center; }
-    nav a { margin: 0 1em; text-decoration: none; color: #333; }
-    main { padding: 2em; }
-    .listing { border: 1px solid #ccc; padding: 1em; margin-bottom: 1em; }
-    .language-switcher { position: absolute; top: 1em; right: 1em; }
+    body { margin: 0; font-family: 'Segoe UI', sans-serif; background: #f7f7f7; }
+    header, footer { background: #e85e1c; color: white; padding: 1rem; text-align: center; }
+    nav { margin-top: 0.5rem; }
+    nav a { color: white; text-decoration: none; margin: 0 1rem; font-weight: bold; }
+    .language-switcher { margin-top: 1rem; }
+    .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    .listing { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem; overflow: hidden; display: flex; cursor: pointer; }
+    .listing img { width: 300px; height: 200px; object-fit: cover; }
+    .listing-content { padding: 1rem; }
+    .listing-content h3 { margin-top: 0; color: #e85e1c; }
+    .listing-content p { margin: 0.5rem 0; }
+    #map-section { height: 400px; margin: 2rem auto; max-width: 1000px; }
+    #map { height: 100%; width: 100%; border-radius: 8px; }
+    #form-section { max-width: 1000px; margin: 2rem auto; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    #form-section h2 { color: #e85e1c; }
+    #form-section label { display: block; margin-top: 1rem; font-weight: bold; }
+    #form-section input, #form-section textarea { width: 100%; padding: 0.5rem; margin-top: 0.5rem; border: 1px solid #ccc; border-radius: 4px; }
+    #form-section button { margin-top: 1rem; background: #e85e1c; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; cursor: pointer; }
   </style>
 </head>
 <body>
@@ -22,27 +34,74 @@
       <a href="#">Zacapa</a>
     </nav>
     <div class="language-switcher">
-      <a href="?lang=es">ES</a> |
-      <a href="?lang=en">EN</a> |
-      <a href="?lang=nl">NL</a> |
-      <a href="?lang=pt">PT</a>
+      <a href="#">ES</a> | <a href="#">EN</a> | <a href="#">NL</a> | <a href="#">PT</a>
     </div>
   </header>
-  <main>
-    <h2>Casas disponibles</h2>
-    <div class="listing">
-      <h3>Casa familiar en Chiquimula</h3>
-      <p><strong>Precio:</strong> Q450,000</p>
-      <p>3 habitaciones, 2 baños</p>
+  <main class="container">
+    <h2>Casas en Guatemala</h2>
+    <div class="listing" onclick="highlightLocation(14.7938, -89.5442)">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Casa en Chiquimula">
+      <div class="listing-content">
+        <h3>Casa familiar en Chiquimula</h3>
+        <p><strong>Precio:</strong> Q450,000</p>
+        <p>3 habitaciones, 2 baños</p>
+      </div>
     </div>
-    <div class="listing">
-      <h3>Casa moderna en Zacapa</h3>
-      <p><strong>Precio:</strong> Q650,000</p>
-      <p>4 habitaciones, 3 baños, piscina</p>
+    <div class="listing" onclick="highlightLocation(14.9731, -89.5300)">
+      <img src="https://images.unsplash.com/photo-1600585154154-174b5f2da0f4?auto=format&fit=crop&w=600&q=80" alt="Casa en Zacapa">
+      <div class="listing-content">
+        <h3>Casa moderna en Zacapa</h3>
+        <p><strong>Precio:</strong> Q650,000</p>
+        <p>4 habitaciones, 3 baños, piscina</p>
+      </div>
     </div>
   </main>
+  <section id="map-section">
+    <div id="map"></div>
+  </section>
+  <section id="form-section">
+    <h2>Publica tu propiedad</h2>
+    <form>
+      <label for="title">Título de la propiedad</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="price">Precio</label>
+      <input type="text" id="price" name="price" required>
+
+      <label for="location">Ubicación (latitud, longitud)</label>
+      <input type="text" id="location" name="location" placeholder="14.7938, -89.5442" required>
+
+      <label for="description">Descripción</label>
+      <textarea id="description" name="description" rows="4"></textarea>
+
+      <button type="submit">Enviar</button>
+    </form>
+  </section>
   <footer>
-    <p>&copy; 2025 VerCasas</p>
+    <p>&copy; 2025 VerCasas. Todos los derechos reservados.</p>
   </footer>
+  <script>
+    let map;
+    let marker;
+    function initMap() {
+      const center = { lat: 14.852, lng: -89.537 };
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 9,
+        center: center,
+      });
+      marker = new google.maps.Marker({
+        position: center,
+        map: map,
+      });
+    }
+    function highlightLocation(lat, lng) {
+      const location = { lat, lng };
+      map.setCenter(location);
+      marker.setPosition(location);
+    }
+  </script>
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap">
+  </script>
 </body>
 </html>
